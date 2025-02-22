@@ -22,14 +22,14 @@ const CrystalField = () => {
 
     // Create crystal instances
     const crystals = [];
-    const crystalCount = 1000; // Number of crystals
+    const crystalCount = 2000; // Number of crystals
     const spread = 50; // Spread of the field
 
     // Create shared geometry and materials
     const geometries = [
-      new THREE.TetrahedronGeometry(0.1, 0),
-      new THREE.OctahedronGeometry(0.1, 0),
-      new THREE.IcosahedronGeometry(0.1, 0),
+      new THREE.TetrahedronGeometry(0.05, 0), // Reduced size from 0.1 to 0.05
+      new THREE.OctahedronGeometry(0.05, 0),
+      new THREE.IcosahedronGeometry(0.05, 0),
     ];
 
     const colors = [
@@ -70,8 +70,8 @@ const CrystalField = () => {
 
       // Store original position
       crystal.userData.originalPosition = crystal.position.clone();
-      // Random movement speed
-      crystal.userData.speed = 0.5 + Math.random() * 0.5;
+      // Increased movement speed
+      crystal.userData.speed = 1.5 + Math.random() * 1.5; // Increased from 0.5 to 1.5
       // Random rotation speed
       crystal.userData.rotationSpeed = (Math.random() - 0.5) * 0.02;
 
@@ -144,15 +144,15 @@ const CrystalField = () => {
         const distanceToMouse = crystal.position.distanceTo(mouseVector);
         const influence = Math.max(0, 1 - distanceToMouse / 10);
 
-        // Move towards mouse
+        // Move towards mouse with increased speed
         if (influence > 0) {
           crystal.position.lerp(
             mouseVector,
-            influence * 0.03 * crystal.userData.speed
+            influence * 0.1 * crystal.userData.speed // Increased from 0.03 to 0.1
           );
         } else {
-          // Return to original position
-          crystal.position.lerp(crystal.userData.originalPosition, 0.02);
+          // Return to original position faster
+          crystal.position.lerp(crystal.userData.originalPosition, 0.05); // Increased from 0.02 to 0.05
         }
 
         // Rotate
